@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Bar with Timers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+
+        .header-image {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 80%;
+            overflow-y: auto;
+        }
+
+        .progress-container {
+            background-color: #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .progress-wrapper {
+            width: 100%;
+        }
+
+        .progress-responsibilities {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .progress-segment {
+            height: 70px;
+            flex: 1;
+            transition: opacity 1s linear;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .segment-1 { background-color: #76c7c0; }
+        .segment-2 { background-color: #ff6f61; }
+        .segment-3 { background-color: #f9a602; }
+        .segment-4 { background-color: #28a745; }
+        .segment-5 { background-color: #6f42c1; }
+        .segment-6 { background-color: #dc3545; }
+        .segment-7 { background-color: #17a2b8; }
+
+        .responsibility {
+            flex: 1;
+            margin: 0 2px;
+        }
+
+        .progress-bar-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .time-counter {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .control-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .control-button:hover {
+            background-color: #0056b3;
+        }
+
+        .input-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .input-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .input-group:last-child {
+            margin-right: 0;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .divider {
+            width: 100%;
+            height: 3px;
+            background-color: #333;
+            margin: 20px 0;
+            border: none;
+        }
+
+        .bottom-image {
+            position: absolute;
+            height: 150px;
+            width: 50%;
+            object-fit: cover;
+        }
+
+        .left-bottom {
+            bottom: 10px;
+            left: 0;
+        }
+
+        .right-bottom {
+            bottom: 10px;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Imagen en la parte superior -->
+    <img src="img1.jpg" alt="Header Image" class="header-image">
+
+    <div class="container">
+        <!-- Instancias de la barra de progreso y cronómetros -->
+        <!-- Se repite el bloque para cada instancia -->
+        <!-- Instance 1 -->
+        <div class="progress-container">
+            <div class="progress-wrapper">
+                <div class="progress-responsibilities">
+                    <div class="responsibility">Bodega de Maquilador</div>
+                    <div class="responsibility">CDAC</div>
+                    <div class="responsibility">Verificación SMO</div>
+                    <div class="responsibility">Planeación de la orden</div>
+                    <div class="responsibility">Verificación SMO</div>
+                    <div class="responsibility">Maquilador</div>
+                    <div class="responsibility">Impresiones</div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-segment segment-1">
+                        <span>Maquilador a CDAC</span>
+                        <div class="time-counter" id="timer-1">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-2">
+                        <span>CDAC</span>
+                        <div class="time-counter" id="timer-2">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-3">
+                        <span>Confirmación de CDAC</span>
+                        <div class="time-counter" id="timer-3">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-4">
+                        <span>Compra de Remisión</span>
+                        <div class="time-counter" id="timer-4">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-5">
+                        <span>Contabilización</span>
+                        <div class="time-counter" id="timer-5">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-6">
+                        <span>Facturación</span>
+                        <div class="time-counter" id="timer-6">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-7">
+                        <span>Impresiones</span>
+                        <div class="time-counter" id="timer-7">00:00:00</div>
+                    </div>
+                </div>
+                <button class="control-button" data-instance="0">Next Timer</button>
+                <div class="input-container">
+                    <div class="input-group">
+                        <label for="trip-number-0">Número de Viaje</label>
+                        <input type="text" id="trip-number-0" name="trip-number">
+                    </div>
+                    <div class="input-group">
+                        <label for="transport-line-0">Línea de Transportista</label>
+                        <input type="text" id="transport-line-0" name="transport-line">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+
+        <!-- Instancias adicionales -->
+        <!-- Repeat the structure above for each instance -->
+        <!-- Instance 2 -->
+        <div class="progress-container">
+            <div class="progress-wrapper">
+                <div class="progress-responsibilities">
+                    <div class="responsibility">Bodega de Maquilador</div>
+                    <div class="responsibility">CDAC</div>
+                    <div class="responsibility">Verificación SMO</div>
+                    <div class="responsibility">Planeación de la orden</div>
+                    <div class="responsibility">Verificación SMO</div>
+                    <div class="responsibility">Maquilador</div>
+                    <div class="responsibility">Impresiones</div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-segment segment-1">
+                        <span>Maquilador a CDAC</span>
+                        <div class="time-counter" id="timer-8">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-2">
+                        <span>CDAC</span>
+                        <div class="time-counter" id="timer-9">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-3">
+                        <span>Confirmación de CDAC</span>
+                        <div class="time-counter" id="timer-10">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-4">
+                        <span>Compra de Remisión</span>
+                        <div class="time-counter" id="timer-11">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-5">
+                        <span>Contabilización</span>
+                        <div class="time-counter" id="timer-12">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-6">
+                        <span>Facturación</span>
+                        <div class="time-counter" id="timer-13">00:00:00</div>
+                    </div>
+                    <div class="progress-segment segment-7">
+                        <span>Impresiones</span>
+                        <div class="time-counter" id="timer-14">00:00:00</div>
+                    </div>
+                </div>
+                <button class="control-button" data-instance="1">Next Timer</button>
+                <div class="input-container">
+                    <div class="input-group">
+                        <label for="trip-number-1">Número de Viaje</label>
+                        <input type="text" id="trip-number-1" name="trip-number">
+                    </div>
+                    <div class="input-group">
+                        <label for="transport-line-1">Línea de Transportista</label>
+                        <input type="text" id="transport-line-1" name="transport-line">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+
+        <!-- Más instancias según sea necesario -->
+
+    </div>
+
+    <!-- Imagenes en la parte inferior -->
+    <img src="img2.jpg" alt="Left Bottom Image" class="bottom-image left-bottom">
+    <img src="img3.jpg" alt="Right Bottom Image" class="bottom-image right-bottom">
+
+    <!-- Incluye el script de Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io(); // Establece la conexión con el servidor Socket.IO
+
+        document.querySelectorAll('.progress-container').forEach((container, instanceIndex) => {
+            const timers = [
+                { id: `timer-${7 * instanceIndex + 1}`, duration: 3 * 3600 + 30 * 60 },
+                { id: `timer-${7 * instanceIndex + 2}`, duration: 30 * 60 },
+                { id: `timer-${7 * instanceIndex + 3}`, duration: 5 * 60 },
+                { id: `timer-${7 * instanceIndex + 4}`, duration: 5 * 60 },
+                { id: `timer-${7 * instanceIndex + 5}`, duration: 20 * 60 },
+                { id: `timer-${7 * instanceIndex + 6}`, duration: 5 * 60 },
+                { id: `timer-${7 * instanceIndex + 7}`, duration: 5 * 60 }
+            ];
+
+            let currentTimerIndex = 0;
+            let intervals = [];
+            let elapsedTimes = new Array(timers.length).fill(0);
+
+            function startTimer(index) {
+                if (index >= timers.length) {
+                    alert('All timers completed.');
+                    return;
+                }
+
+                const timerElement = document.getElementById(timers[index].id);
+                let elapsedTime = elapsedTimes[index] || 0;
+                const duration = timers[index].duration;
+
+                intervals[index] = setInterval(() => {
+                    elapsedTime++;
+                    elapsedTimes[index] = elapsedTime;
+                    const hours = Math.floor(elapsedTime / 3600).toString().padStart(2, '0');
+                    const minutes = Math.floor((elapsedTime % 3600) / 60).toString().padStart(2, '0');
+                    const seconds = (elapsedTime % 60).toString().padStart(2, '0');
+                    timerElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+                    if (elapsedTime >= duration) {
+                        clearInterval(intervals[index]);
+                        timerElement.parentElement.style.opacity = '0.2';
+                        alert(`Time's up for ${timerElement.parentElement.querySelector('span').textContent}`);
+                        elapsedTimes[index] = elapsedTime;
+                        currentTimerIndex++;
+                        startTimer(currentTimerIndex);
+                    }
+                }, 1000);
+
+                // Notifica al servidor que se ha iniciado un temporizador
+                socket.emit('startTimer', { instance: instanceIndex, timerIndex: index });
+            }
+
+            function stopTimer(index) {
+                if (intervals[index]) {
+                    clearInterval(intervals[index]);
+                    // Notifica al servidor que se ha detenido un temporizador
+                    socket.emit('stopTimer', { instance: instanceIndex, timerIndex: index });
+                }
+            }
+
+            // Escucha los eventos del servidor para actualizar los temporizadores
+            socket.on('updateTimer', (data) => {
+                const { instance, timerIndex, elapsedTime } = data;
+                const timerElement = document.getElementById(`timer-${7 * instance + timerIndex + 1}`);
+                const hours = Math.floor(elapsedTime / 3600).toString().padStart(2, '0');
+                const minutes = Math.floor((elapsedTime % 3600) / 60).toString().padStart(2, '0');
+                const seconds = (elapsedTime % 60).toString().padStart(2, '0');
+                timerElement.textContent = `${hours}:${minutes}:${seconds}`;
+            });
+
+            container.querySelector('.control-button').addEventListener('click', () => {
+                stopTimer(currentTimerIndex);
+                currentTimerIndex++;
+                if (currentTimerIndex < timers.length) {
+                    startTimer(currentTimerIndex);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
